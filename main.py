@@ -15,16 +15,20 @@ def id_generator(size=10, chars=string.ascii_lowercase + string.digits):
 
 # Bootsrap Initialisation #
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='h)8@p^44j1c_(5!w)%&u!-#i+3d_f=5*g@4s_zhb30^')
+app.config['SECRET_KEY'] = SECRET_KEY
+
 Bootstrap(app)
 
 # SQLAlchemy #
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///list-task.db'
 with app.app_context():
     db = SQLAlchemy(app)
-    # Uncomment to create db
-    db.create_all() 
-    
+#     # Uncomment to create db
+#     db.create_all() 
+@app.before_first_request
+def create_tables():
+    db.create_all()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Task(db.Model):

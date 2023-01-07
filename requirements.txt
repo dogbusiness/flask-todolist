@@ -7,3 +7,4 @@ gunicorn
 Jinja2
 itsdangerous
 werkzeug
+flaskr-1.0.0-py3-none-any.whl
