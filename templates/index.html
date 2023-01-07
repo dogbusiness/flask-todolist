@@ -1,0 +1,12 @@
+{% include 'header.html' %}
+
+
+<body>
+    <div class="p-3 mb-3 bg-success text-white">Create your to-do list below</div>
+    <form class="d-flex" method="POST" novalidate action="{{ url_for('new_list') }}">
+        {{ new_list_form.csrf_token }}
+        {{ new_list_form.description(class="form-control me-2 border-0") }}
+        {{ new_list_form.submit2(class="btn btn-success visually-hidden") }}
+    </form>
+</body>
+</html>

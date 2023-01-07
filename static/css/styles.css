@@ -1,0 +1,29 @@
+#logo{
+    width: 80px;
+    height: 40px;
+}
+.fa-trash{
+    float: right;
+    display: none;
+    bottom: -0.2em;
+}
+.task:hover .fa-trash {
+	  display: block;
+	  color: #880808;
+	  font-size: 20px;
+	  bottom: -0.2em;
+}
+#list-name-h3{
+    display: block;
+}
+#list-name-form{
+    display: none;
+}
+.superscript{
+    display: none;
+    position: relative;
+    top: -0.7em;
+}
+#list-name-h3:hover + .superscript{
+    display: block;
+}
