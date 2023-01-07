@@ -20,7 +20,11 @@ Bootstrap(app)
 
 # SQLAlchemy #
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///list-task.db'
-db = SQLAlchemy(app)
+with app.app_context():
+    db = SQLAlchemy(app)
+    # Uncomment to create db
+    db.create_all() 
+    
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Task(db.Model):
@@ -36,9 +40,6 @@ class List(db.Model):
     url = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(200))
     listids = db.relationship('Task', backref='task')
-
-# Uncomment to create db
-db.create_all()
 
 # WTForms #
 class SearchList(FlaskForm):
