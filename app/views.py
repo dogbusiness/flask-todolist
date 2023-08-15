@@ -140,7 +140,7 @@ def show_list(list_url, new_list_created=False):
 
     if add_task_form.validate_on_submit():
         new_task = Task(
-            # taskid=str(uuid4()),
+            taskid=str(uuid4()),
             description=add_task_form.description.data,
             done=0,
             listid=cur_list[0].listid,
