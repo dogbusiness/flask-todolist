@@ -2,7 +2,7 @@
 
 <body>
     {% if new_list_created == True %}
-        <div class="first-div p-3 mb-3 bg-success text-white"><p>New list created! Your list id is {{ list_url }}. <p>Save it and use it by putting it in the url or using search box above to return to your list later.</div>
+        <div class="first-div p-3 mb-3 bg-success text-white"><p>New list created! Your list id is {{ list_url }} <p>Save it and use it by putting it in the url or using search box above to return to your list later.</div>
     {% else %}
         <div class="first-div d-flex flex-row justify-content-start container-fluid p-3 mb-3 bg-success text-white">
             <h3 id="list-name-h3">
@@ -10,7 +10,7 @@
             </h3>
             <i class="fa fa-pen superscript"></i>
             <h3 id="list-name-form">
-                <form method="POST" novalidate action="{{ url_for('show_list', list_url=list[0].url, new_list_created=False) }}">
+                <form method="POST" novalidate action="{{ url_for('tasks.show_list', list_url=list[0].url, new_list_created=False) }}">
                   {{ edit_list_name.csrf_token }}
                   {{ edit_list_name.name(class="text-white bg-success border border-success me-2", value=list[0].name)}}
                   {{ edit_list_name.submit4(class="btn btn-success visually-hidden", type="submit") }}
@@ -18,20 +18,20 @@
             </h3>
         </div>
     {% endif %}
-    <form class="my-2 d-flex" method="POST" novalidate action="{{ url_for('show_list', list_url=list_url, new_list_created=False) }}">
+    <form class="my-2 d-flex" method="POST" novalidate action="{{ url_for('tasks.show_list', list_url=list_url, new_list_created=False) }}">
         {{ add_task_form.csrf_token }}
         {{ add_task_form.description(class="form-control me-2 border-0") }}
         {{ add_task_form.submit3(class="btn btn-success visually-hidden") }}
     </form>
     <ul class="d-grid gap-3">
-        <form method="POST" novalidate action="{{ url_for('show_list', list_url=list_url, new_list_created=False) }}">
+        <form method="POST" novalidate action="{{ url_for('tasks.show_list', list_url=list_url, new_list_created=False) }}">
             {{ edit_task.csrf_token }}
             {% for i in range(edit_task.description|length) %}
                 <li class="p-1 bg-light border task mt-3" id="task-desc">
                     <div class="container-fluid task">
                         {{ edit_task.description[i](class="bg-light me-2 border-0", id="task-desc") }}
                         {{ edit_task.submit5(class="btn btn-success visually-hidden") }}
-                        <a href="{{ url_for('delete', id=list[i].taskid, list_url=list[0].url) }}" class="text-right fa fa-trash"></a>
+                        <a href="{{ url_for('tasks.delete', id=list[i].taskid, list_url=list[0].url) }}" class="text-right fa fa-trash"></a>
                     </div>
                 </li>
             {% endfor %}
