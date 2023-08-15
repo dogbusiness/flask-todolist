@@ -31,7 +31,7 @@
                     <div class="container-fluid task">
                         {{ edit_task.description[i](class="bg-light me-2 border-0", id="task-desc") }}
                         {{ edit_task.submit5(class="btn btn-success visually-hidden") }}
-                        <a href="{{ url_for('tasks.delete', id=list[i].taskid, list_url=list[0].url) }}" class="text-right fa fa-trash"></a>
+                        <a href="{{ url_for('tasks.delete', id=list[i].taskid, list_url=list[0].url) }}" class="text-right fa fa-trash">Delete</a>
                     </div>
                 </li>
             {% endfor %}
