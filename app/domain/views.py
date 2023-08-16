@@ -1,10 +1,10 @@
 import datetime
 from uuid import uuid4
 
-from database import db
+import interface.forms as forms
+from core.database import db
+from core.models import List, Task
 from flask import Blueprint, redirect, render_template, request, url_for
-from forms import AddTask, CreateNewList, EditListName, EditTask, SearchList
-from models import List, Task
 
 bp = Blueprint(
     "tasks", __name__, static_folder="static", template_folder="templates"
@@ -13,7 +13,7 @@ bp = Blueprint(
 
 @bp.route("/search")
 def search_list():
-    search_form = SearchList()
+    search_form = forms.SearchList()
     if search_form.validate_on_submit():
         return redirect(
             url_for("tasks.show_list", list_url=search_form.list_id.data)
@@ -22,8 +22,8 @@ def search_list():
 
 @bp.route("/new", methods=["POST", "GET"])
 def new_list():
-    search_form = SearchList()
-    new_list_form = CreateNewList()
+    search_form = forms.SearchList()
+    new_list_form = forms.CreateNewList()
     new_list_created = False
     new_list_url = None
     if search_form.validate_on_submit():
@@ -74,9 +74,9 @@ def redirect_to_home():
 
 @bp.route("/<list_url>", methods=["POST", "GET"])
 def show_list(list_url, new_list_created=False):
-    search_form = SearchList()
-    add_task_form = AddTask()
-    edit_list_name = EditListName()
+    search_form = forms.SearchList()
+    add_task_form = forms.AddTask()
+    edit_list_name = forms.EditListName()
     cur_list = (
         db.session.query(Task)
         .join(List, Task.listid == List.listid)
@@ -108,7 +108,7 @@ def show_list(list_url, new_list_created=False):
     db.session.commit()
     # these entries will be shown in edit_task form in html
     tasks_entries = [task.description for task in cur_list]
-    edit_task = EditTask(description=tasks_entries)
+    edit_task = forms.EditTask(description=tasks_entries)
     if edit_task.submit5.data and edit_task.validate():
         new_descriptions = edit_task.description.data
         tasks_ids = [task.taskid for task in cur_list]

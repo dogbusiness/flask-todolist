@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from database import db
+from .database import db
 
 
 class Task(db.Model):
