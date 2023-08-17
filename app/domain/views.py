@@ -11,23 +11,26 @@ bp = Blueprint(
 )  # noqa: E501
 
 
-@bp.route("/search")
+@bp.route("/search", methods=["POST"])
 def search_list():
     search_form = forms.SearchList()
     if search_form.validate_on_submit():
         return redirect(
             url_for("tasks.show_list", list_url=search_form.list_id.data)
         )  # noqa: E501
+    new_list_form = forms.CreateNewList()
+    return render_template(
+        "index.html",
+        search_form=search_form,
+        new_list_form=new_list_form,
+        new_list_created=False,
+    )
 
 
 @bp.route("/new", methods=["POST", "GET"])
 def new_list():
     search_form = forms.SearchList()
     new_list_form = forms.CreateNewList()
-    if search_form.validate_on_submit():
-        return redirect(
-            url_for("tasks.show_list", list_url=search_form.list_id.data)
-        )  # noqa: E501
     if new_list_form.validate_on_submit():
         new_list_url = str(uuid4())
         new_list_name = f'My to-do list {datetime.datetime.now().strftime("%d.%m.%y")}'  # noqa: E501
@@ -87,10 +90,6 @@ def show_list(list_url, new_list_created=False):
         return redirect(url_for("tasks.new_list"))
     tasks_entries = [task.description for task in cur_list]
     edit_task = forms.EditTask(description=tasks_entries)
-    if search_form.validate_on_submit():
-        return redirect(
-            url_for("tasks.show_list", list_url=search_form.list_id.data)
-        )  # noqa: E501
     if edit_task.submit5.data and edit_task.validate():
         new_descriptions = edit_task.description.data
         tasks_ids = [task.taskid for task in cur_list]
@@ -122,7 +121,6 @@ def show_list(list_url, new_list_created=False):
 
     if add_task_form.validate_on_submit():
         new_task = Task(
-            taskid=str(uuid4()),
             description=add_task_form.description.data,
             done=0,
             listid=cur_list[0].listid,

@@ -1,0 +1,24 @@
+version: '3.8'
+
+volumes:
+  static: {}
+
+services:
+  to-do:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: result/latest
+      ports:
+        - "8000:8000"
+
+  nginx:
+    image: nginx:stable-alpine3.17
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/configs:/etc/nginx/conf.d:ro
+      - ./app/domain/static:/data
+    ports:
+      - "80:80"
+    depends_on:
+      - to-do
