@@ -1,9 +1,0 @@
-flask
-flask_bootstrap
-flask-sqlalchemy
-flask_wtf
-WTForms
-gunicorn
-Jinja2
-itsdangerous
-werkzeug
