@@ -3,7 +3,10 @@ from core.database import db
 from domain.views import bp
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from gevent import monkey
 from werkzeug.middleware.proxy_fix import ProxyFix
+
+monkey.patch_all()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = settings.app_secret_key
